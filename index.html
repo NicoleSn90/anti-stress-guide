@@ -452,7 +452,14 @@
           const data = await res.json();
           if (!data.success) throw new Error(data.message || 'Serverfehler');
 
-          showStatus('success', 'Geschafft, ' + firstName + '! Dein Anti-Stress-Guide ist auf dem Weg in dein Postfach. 🌿');
+          const safeName = firstName.replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+          });
+          status.className = 'form-status success';
+          status.innerHTML =
+            'Geschafft, ' + safeName + '! 🌿 Bitte bestätige kurz die E-Mail, die wir dir gerade geschickt haben. ' +
+            'Deinen Guide kannst du hier direkt herunterladen:' +
+            '<br><a class="btn" style="margin-top:12px; display:inline-block;" href="guide/anti-stress-guide.pdf" target="_blank" rel="noopener" download>📄 Anti-Stress-Guide herunterladen</a>';
           form.reset();
         } catch (err) {
           showStatus('error', 'Ups, das hat nicht geklappt. Bitte versuche es später erneut.');
