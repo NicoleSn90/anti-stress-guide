@@ -359,6 +359,7 @@
     }
     footer .logo { justify-content: center; margin-bottom: 14px; color: var(--accent-dark); }
   </style>
+  <script async type="text/javascript" src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=Wuzq5s"></script>
 </head>
 <body>
 
@@ -487,19 +488,7 @@
         <span class="mini-badge">🍃 Kostenlos & sofort</span>
         <h2>Hol dir deinen Anti-Stress-Guide</h2>
         <p>Trag dich ein und erhalte deinen persönlichen Guide für mehr Ruhe und Gelassenheit.</p>
-        <form class="lead-form" id="leadForm" novalidate>
-          <div class="field">
-            <label for="firstName">Vorname</label>
-            <input type="text" id="firstName" name="firstName" placeholder="Dein Vorname" required autocomplete="given-name" />
-          </div>
-          <div class="field">
-            <label for="email">E-Mail-Adresse</label>
-            <input type="email" id="email" name="email" placeholder="du@beispiel.de" required autocomplete="email" />
-          </div>
-          <button type="submit" class="btn-submit" id="submitBtn">🍃 Guide jetzt anfordern</button>
-          <p class="form-note">Kein Spam. Abmeldung jederzeit möglich. Du erhältst eine Bestätigungsmail.</p>
-          <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
-        </form>
+        <div class="klaviyo-form-VMwrhH"></div>
       </div>
     </div>
   </section>
@@ -511,82 +500,6 @@
     </div>
   </footer>
 
-  <script>
-    (function () {
-      const form = document.getElementById('leadForm');
-      const status = document.getElementById('formStatus');
-      const btn = document.getElementById('submitBtn');
-
-      function showStatus(type, msg) {
-        status.className = 'form-status ' + type;
-        status.textContent = msg;
-      }
-
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        const firstName = form.firstName.value.trim();
-        const email = form.email.value.trim();
-
-        if (!firstName || !email) {
-          showStatus('error', 'Bitte fülle beide Felder aus.');
-          return;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          showStatus('error', 'Bitte gib eine gültige E-Mail-Adresse ein.');
-          return;
-        }
-
-        btn.disabled = true;
-        const original = btn.textContent;
-        btn.textContent = 'Wird gesendet …';
-
-        try {
-          const res = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=Wuzq5s', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'revision': '2023-02-22'
-            },
-            body: JSON.stringify({
-              data: {
-                type: 'subscription',
-                attributes: {
-                  profile: {
-                    data: {
-                      type: 'profile',
-                      attributes: {
-                        email: email,
-                        first_name: firstName
-                      }
-                    }
-                  }
-                },
-                relationships: {
-                  list: {
-                    data: { type: 'list', id: 'TZ24Ay' }
-                  }
-                }
-              }
-            })
-          });
-
-          // Klaviyo gibt 202 zurück (kein JSON-Body)
-          if (res.status === 202 || res.ok) {
-            showStatus('success', '🌿 Fast geschafft, ' + firstName + '! Bitte bestätige kurz die E-Mail in deinem Postfach – dann ist dein Guide auf dem Weg zu dir.');
-            form.reset();
-          } else {
-            throw new Error('Status ' + res.status);
-          }
-        } catch (err) {
-          showStatus('error', 'Ups, das hat nicht geklappt. Bitte versuche es später erneut.');
-        } finally {
-          btn.disabled = false;
-          btn.textContent = original;
-        }
-      });
-    })();
-  </script>
 
 </body>
 </html>
